@@ -1,0 +1,262 @@
+:root {
+  --bg: #050608;
+  --bg-alt: #0d1015;
+  --surface: rgba(20, 23, 30, 0.88);
+  --surface-strong: rgba(12, 14, 18, 0.96);
+  --gold: #f0b43c;
+  --gold-soft: rgba(240, 180, 60, 0.16);
+  --teal: #27e0dd;
+  --teal-soft: rgba(39, 224, 221, 0.15);
+  --text: rgba(255, 255, 255, 0.94);
+  --muted: rgba(255, 255, 255, 0.68);
+  --border: rgba(255, 255, 255, 0.1);
+  --shadow: 0 28px 80px rgba(0, 0, 0, 0.45);
+  --radius: 28px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  color-scheme: dark;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: "Avenir Next", "Segoe UI", sans-serif;
+  color: var(--text);
+  background:
+    radial-gradient(circle at top left, rgba(39, 224, 221, 0.15), transparent 28%),
+    radial-gradient(circle at top right, rgba(240, 180, 60, 0.12), transparent 30%),
+    linear-gradient(180deg, #080a0d 0%, #030405 100%);
+}
+
+a {
+  color: var(--teal);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+.site-shell {
+  width: min(1080px, calc(100% - 32px));
+  margin: 0 auto;
+  padding: 56px 0 72px;
+}
+
+.hero,
+.note-panel,
+.legal-header,
+.legal-content {
+  position: relative;
+  background: linear-gradient(180deg, rgba(18, 22, 28, 0.94), rgba(8, 10, 14, 0.96));
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+.hero,
+.note-panel,
+.legal-header {
+  overflow: hidden;
+}
+
+.hero::before,
+.note-panel::before,
+.legal-header::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(120deg, rgba(240, 180, 60, 0.08), transparent 38%),
+    linear-gradient(300deg, rgba(39, 224, 221, 0.08), transparent 42%);
+  pointer-events: none;
+}
+
+.hero {
+  padding: 56px;
+  margin-bottom: 24px;
+}
+
+.eyebrow,
+.card-label,
+.meta,
+.back-link {
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-size: 0.76rem;
+}
+
+.eyebrow {
+  margin: 0 0 16px;
+  color: var(--gold);
+}
+
+.hero h1,
+.legal-header h1 {
+  margin: 0;
+  font-size: clamp(2.2rem, 5vw, 4.8rem);
+  line-height: 0.96;
+  max-width: 12ch;
+}
+
+.lede {
+  margin: 20px 0 0;
+  max-width: 58ch;
+  color: var(--muted);
+  font-size: 1.08rem;
+  line-height: 1.7;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+}
+
+.card {
+  display: block;
+  padding: 28px;
+  border-radius: 24px;
+  border: 1px solid var(--border);
+  background:
+    linear-gradient(180deg, rgba(15, 18, 24, 0.94), rgba(8, 10, 14, 0.98));
+  box-shadow: var(--shadow);
+  transition: transform 180ms ease, border-color 180ms ease, background 180ms ease;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(39, 224, 221, 0.3);
+  text-decoration: none;
+}
+
+.card-label {
+  margin: 0 0 16px;
+  color: var(--gold);
+}
+
+.card h2 {
+  margin: 0 0 10px;
+  font-size: 1.7rem;
+}
+
+.card p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+.card-link {
+  display: inline-block;
+  margin-top: 22px;
+  color: var(--teal);
+  font-weight: 600;
+}
+
+.note-panel {
+  margin-top: 24px;
+  padding: 28px 32px;
+}
+
+.note-panel h2 {
+  margin: 0 0 10px;
+  font-size: 1.3rem;
+}
+
+.note-panel p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+.legal-shell {
+  width: min(920px, calc(100% - 32px));
+}
+
+.legal-header {
+  padding: 36px 36px 28px;
+  margin-bottom: 18px;
+}
+
+.back-link {
+  display: inline-block;
+  margin-bottom: 18px;
+  color: var(--teal);
+}
+
+.meta {
+  margin: 18px 0 0;
+  color: var(--muted);
+}
+
+.legal-content {
+  padding: 18px 36px 28px;
+}
+
+.legal-content section {
+  padding: 22px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.legal-content section:last-child {
+  border-bottom: 0;
+}
+
+.legal-content h2 {
+  margin: 0 0 12px;
+  color: var(--gold);
+  font-size: 1.2rem;
+}
+
+.legal-content p,
+.legal-content li {
+  color: var(--muted);
+  line-height: 1.8;
+  font-size: 1rem;
+}
+
+.legal-content p {
+  margin: 0 0 14px;
+}
+
+.legal-content ul {
+  margin: 0 0 14px 20px;
+  padding: 0;
+}
+
+@media (max-width: 760px) {
+  .site-shell,
+  .legal-shell {
+    width: min(100% - 20px, 920px);
+    padding-top: 20px;
+    padding-bottom: 32px;
+  }
+
+  .hero,
+  .legal-header,
+  .legal-content,
+  .note-panel,
+  .card {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  .hero {
+    padding-top: 32px;
+    padding-bottom: 32px;
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+  }
+
+  .legal-content {
+    padding-top: 8px;
+    padding-bottom: 16px;
+  }
+}
