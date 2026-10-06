@@ -151,7 +151,8 @@ def render_body(meta):
         hid = idm.group(1) if idm else slugify(inner)
         if not idm:
             attrs = f' id="{hid}"' + attrs
-        toc.append((hid, strip_tags(inner)))
+        if 'data-toc="no"' not in attrs:
+            toc.append((hid, strip_tags(inner)))
         return f"<h2{attrs}>{inner}</h2>"
 
     body = re.sub(r"<h2([^>]*)>(.*?)</h2>", add_id, body, flags=re.S)

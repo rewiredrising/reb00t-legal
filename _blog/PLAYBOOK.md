@@ -49,6 +49,8 @@ folder is public.
    - **Internal links:** link to 2–4 existing posts (`/blog/<slug>/`). Then edit 1–3 older
      related posts to add a contextual link to the new post. That counts as an update: set
      their `"updated"` to today.
+   - **Sources:** end the body with `<h2 data-toc="no">Sources</h2>` and an `<ol class="sources">` of
+     every study or official page cited (links get `rel="nofollow"`). See the reference post.
    - **Accuracy:** follow every fact-check rule. Cite studies by author, journal and year in the
      text. Never invent statistics, quotes, testimonials, user counts or ratings. Describe app
      features only as they actually work: blocker across Safari/Chrome/Firefox plus app shielding;

@@ -112,6 +112,9 @@ img { max-width: 100%; height: auto; }
 }
 .prose .callout p:last-child { margin-bottom: 0; }
 
+.prose .sources { font-size: 0.9rem; line-height: 1.6; color: var(--muted); }
+.prose .sources li { margin: 0.5em 0; }
+
 .screen { margin: 2em auto; max-width: 300px; text-align: center; }
 .screen img { border-radius: 22px; border: 1px solid var(--border); display: block; }
 .screen figcaption { font-size: 0.86rem; color: var(--muted); margin-top: 10px; line-height: 1.5; }
