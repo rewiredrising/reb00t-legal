@@ -21,7 +21,17 @@ git push -q origin main
 urls=("https://reb00t.app/blog/" "https://reb00t.app/sitemap.xml")
 for s in "${slugs[@]}"; do urls+=("https://reb00t.app/blog/$s/"); done
 
-# GitHub Pages usually deploys in 30-90s.
+# Wait for GitHub Pages to finish building the commit we just pushed (usually 30-90s).
+head=$(git rev-parse HEAD)
+for i in {1..40}; do
+  build=$(gh api repos/rewiredrising/reb00t-legal/pages/builds/latest --jq '.status+" "+.commit' 2>/dev/null || true)
+  [[ $build == "built $head" ]] && break
+  [[ $build == errored* ]] && { echo "Pages build errored: $build"; exit 1; }
+  sleep 8
+done
+echo "Pages: $build"
+[[ $build == "built $head" ]] || { echo "Pages did not finish building $head"; exit 1; }
+
 for s in "${slugs[@]}"; do
   u="https://reb00t.app/blog/$s/"
   for i in {1..30}; do
