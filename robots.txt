@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://reb00t.app/sitemap.xml

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+<channel>
+  <title>REB00T Blog</title>
+  <link>https://reb00t.app/blog/</link>
+  <atom:link href="https://reb00t.app/blog/feed.xml" rel="self" type="application/rss+xml"/>
+  <description>Guides for men quitting porn: urges, blockers, streaks and relapse prevention.</description>
+  <language>en-us</language>
+  <item>
+    <title>How to Survive No Nut November 2026: A 30-Day Plan That Actually Works</title>
+    <link>https://reb00t.app/blog/how-to-survive-no-nut-november/</link>
+    <guid isPermaLink="true">https://reb00t.app/blog/how-to-survive-no-nut-november/</guid>
+    <pubDate>Tue, 06 Oct 2026 08:00:00 +0000</pubDate>
+    <description>How to survive No Nut November 2026: the rules, the danger days, a 5-minute urge protocol, and a week-by-week plan to make it all the way to November 30.</description>
+  </item>
+</channel>
+</rss>
