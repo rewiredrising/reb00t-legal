@@ -142,3 +142,17 @@ Relay were not seen ranking for these terms.
   showed a login page (not signed in), skipped. New sources verified: Cleveland Clinic wet-dreams page,
   Know Your Meme NNN guide, Wikipedia NNN article (subreddit 16.5k → 52k, 2018–2019). Only one older post
   existed, so internal links all go to `how-to-survive-no-nut-november` (3 anchors) and it links back.
+- 2026-10-14 (second run, catch-up): published `block-porn-iphone-every-browser` (primary: **how to block
+  porn on iphone**). Google Trends (US, 12 mo) averages: "block porn iphone" 47 (steady year-round, peak
+  Jan 25 2026), "how to block porn on iphone" 14, "porn blocker iphone" 3, "block adult websites iphone" 1.
+  Related queries for "block porn iphone": *how to block porn on iphone* (100, top), *how to block porn from
+  iphone* (20), *how to block porn sites on iphone* (19), *how to block websites on iphone* (18); for the
+  primary: *how to block porn sites on iphone* (100), *how to block websites on iphone* (97), *how to block
+  porn on my phone* (39), *how to block adult content on iphone* (18). Bing/DDG autocomplete filters "porn"
+  but returned "block pornography on iphone", "how to block inappropriate websites on iphone", "how to block
+  adults websites permanently", "how to block bad websites on iphone", "how to block private browsing on
+  iphone", "how to block websites on safari iphone", "how to block websites on firefox ios". SERP: AirDroid,
+  AstroSafe, plug.tech, one-sec.app (Med, as mapped). Applyra: login page in the built-in browser and
+  Claude-in-Chrome extension not connected, skipped. New sources verified: Apple 102677 (Screen Time
+  passcode recovery via Apple Account is optional), Apple iPhone User Guide passcode page, Cloudflare
+  1.1.1.1 for Families (1.1.1.3 / 1.0.0.3). Links: both NNN posts now link to it (updated 2026-10-14).
