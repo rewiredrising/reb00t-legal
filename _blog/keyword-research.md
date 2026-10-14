@@ -10,7 +10,7 @@ the App Store listing: https://apps.apple.com/us/app/quit-reboot-lust-blocker/id
 | --- | --- | --- |
 | **Google Trends** (built-in browser, logged in as the user) | Relative US demand, seasonality, and "rising/breakout" related queries (real Google searches) | `https://trends.google.com/trends/explore?date=today%2012-m&geo=US&q=term1,term2` then scroll to the bottom so the Related queries widget loads, and read `.fe-related-queries .item`. Trends returns 429 if hit right after heavy autocomplete scraping, so wait a minute. |
 | **Bing + DuckDuckGo autocomplete** | Verbatim queries people type (Google's own autocomplete filters out almost every adult term) | `https://api.bing.com/osjson.aspx?query=…` and `https://duckduckgo.com/ac/?type=list&q=…` with a–z suffixes |
-| **Applyra** (applyra.io, built-in browser, Google login) | App Store search demand. Traffic (T) and difficulty (D) 0–100 for the same audience | From an applyra.io tab: `fetch('/dashboard/keywords-inspector?keyword=X&store=ITUNES&country=US&lang=en-US')`, regex `trafficScore":N` / `difficultyScore":N`. Run fetches in parallel with `Promise.all` (sequential calls time out). **T8 D18 = no data** (Apple suppresses porn terms). App id 482208. |
+| **Applyra** (applyra.io, built-in browser, Google login) | App Store search demand. Traffic (T) and difficulty (D) 0–100 for the same audience | From an applyra.io tab: `fetch('/dashboard/keywords-inspector?keyword=X&store=ITUNES&country=US&lang=en-US')`, regex `/trafficScore\\*":(\d+)/` / `/difficultyScore\\*":(\d+)/` (since Oct 2026 the page escapes its quotes, so the old `trafficScore":N` pattern returns nothing). Do **one** fetch first so the login session refreshes, then the rest in batches of about 6 with `Promise.all`. **T8 D18 = no data** (Apple suppresses porn terms). App id 482208. |
 | **WebSearch SERP checks** | Whether small sites, forums or spam rank (a low-difficulty signal) | Search the exact phrase and note who's in the top 8 |
 
 Ahrefs and Similarweb connectors exist but need OAuth. If the user connects Ahrefs, replace the
@@ -156,3 +156,14 @@ Relay were not seen ranking for these terms.
   Claude-in-Chrome extension not connected, skipped. New sources verified: Apple 102677 (Screen Time
   passcode recovery via Apple Account is optional), Apple iPhone User Guide passcode page, Cloudflare
   1.1.1.1 for Families (1.1.1.3 / 1.0.0.3). Links: both NNN posts now link to it (updated 2026-10-14).
+- 2026-10-14 (refresh): Applyra re-pulled after the user signed in (US, iTunes). nnn T96 D20, urge T96
+  D58, adult content blocker T63 D41, nofap T63 D36, lust T63 D18, no nut T54 D36, app blocker T54 D61,
+  semen retention T52 D19, dopamine detox T52 D58, website blocker T50 D40, relapse T43 D43, block websites
+  T25 D26, content blocker T25 D43, safari blocker T25 D63. Suppressed (T8): porn blocker, block porn, porn
+  filter, quit porn, porn addiction, no nut november, no nut november rules, nnn challenge, block adult
+  websites. Refreshed all three posts for coverage: survival guide now has its primary keyword in 2 H2s
+  and 3 body mentions (was 1 body, 0 H2) plus "how hard is no nut november", "failing no nut november",
+  "no nut november and december", "nnn tips", "no nut november challenge", "is no nut november bad";
+  rules post adds "NNN rules" H2, "no nut november rules 2026", "official rules"; blocker post adds "how
+  to block porn sites on iphone" (Trends 100), "how to block websites on iphone" (97), "how to block adult
+  content on iphone" (18), "adult content blocker" (T63), "website blocker" (T50), "app blocker" (T54).
