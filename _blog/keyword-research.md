@@ -130,3 +130,15 @@ Relay were not seen ranking for these terms.
 
 - 2026-10-06: initial research (Trends, Applyra, Bing/DDG autocomplete, SERP checks). Published
   `how-to-survive-no-nut-november`.
+- 2026-10-14: published `no-nut-november-rules` (primary: **no nut november rules**). Evidence: Bing/DDG
+  autocomplete returned "no nut november rules", "rules of no nut november", "what are the rules of no nut
+  november", "no nut november official rules", "no nut november rules reddit", "no nut november rules
+  2024/2025", "nnn rules", "latest nnn rules", "do you get a free pass in no nut november", "does no nut
+  november apply to girls", "how to fail / failing no nut november", "how many people fail no nut november".
+  Google Trends (US, 12 mo): "nnn rules" peaked 100 and "no nut november rules" 71 in the week of Nov 2,
+  2025 (26/38 the week before), ~0 the rest of the year; 12-mo averages 3 and 2; "free pass" and "tips"
+  variants ~0. Related query: *nnn rules 2025* +450%. SERP: Know Your Meme x2, Kotaku, and
+  auto-generated spam pages (ntwcontabilidade, adserver) rank in the top 8, so it's winnable. Applyra
+  showed a login page (not signed in), skipped. New sources verified: Cleveland Clinic wet-dreams page,
+  Know Your Meme NNN guide, Wikipedia NNN article (subreddit 16.5k → 52k, 2018–2019). Only one older post
+  existed, so internal links all go to `how-to-survive-no-nut-november` (3 anchors) and it links back.
