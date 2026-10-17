@@ -87,6 +87,8 @@ folder is public.
 - One post per run. Don't publish a post dated in the future (build.py skips those anyway).
 
 ## Localization (translations of posts)
+> Model/cost rule for translation: do the translation in this session, or if you delegate it (Claude Code CLI, subagents) use `--model sonnet` at normal effort — never opus, never `--effort max`, no parallel reviewer subagents.
+
 The site is translated into the locales in `_i18n/config.json` (es, pt-BR, de, zh-Hans, ja, ar); translated pages live at `/<code>/...`, e.g. `/de/blog/<slug>/`. See `_i18n/README.md`.
 
 - `build.py` now finishes by running `_i18n/i18n.py`, which refreshes the language switcher, hreflang alternates and the `I18N` block in `sitemap.xml`. A new English post without translations builds and publishes exactly as before.
