@@ -1,0 +1,43 @@
+/* Language switcher (markup injected by _i18n/i18n.py) */
+details.lang-switch { background: none; border: 0; border-radius: 0; padding: 0; margin: 0; box-shadow: none; }
+details.lang-switch > summary { margin: 0; font-size: 0.9rem; font-weight: 600; }
+.lang-switch { position: relative; display: inline-block; font-size: 0.9rem; font-weight: 600; z-index: 120; }
+.lang-switch > summary {
+  list-style: none; cursor: pointer; display: inline-flex; align-items: center; gap: 6px;
+  padding: 7px 12px; border-radius: 999px; border: 1px solid var(--i18n-line, rgba(127,127,127,.35));
+  color: inherit; background: var(--i18n-bg, transparent); white-space: nowrap; user-select: none;
+}
+.lang-switch > summary::-webkit-details-marker { display: none; }
+.lang-switch > summary::after { content: ""; width: 6px; height: 6px; border-inline-end: 1.5px solid currentColor; border-block-end: 1.5px solid currentColor; transform: translateY(-2px) rotate(45deg); margin-inline-start: 2px; opacity: .7; }
+.lang-switch[open] > summary::after { transform: translateY(1px) rotate(225deg); }
+.lang-switch ul {
+  position: absolute; inset-inline-end: 0; top: calc(100% + 6px); margin: 0; padding: 6px; list-style: none;
+  min-width: 190px; border-radius: 14px; background: var(--i18n-menu-bg, #fff); color: var(--i18n-menu-fg, #111);
+  border: 1px solid var(--i18n-line, rgba(127,127,127,.25)); box-shadow: 0 18px 40px rgba(0,0,0,.18);
+}
+.lang-switch li { margin: 0; padding: 0; }
+.lang-switch li::before { display: none !important; }
+.lang-switch ul a { display: block; padding: 8px 12px; border-radius: 9px; color: inherit; text-decoration: none; text-align: start; }
+.lang-switch ul a:hover, .lang-switch ul a:focus-visible { background: rgba(127,127,127,.14); text-decoration: none; }
+.lang-switch ul a[aria-current] { font-weight: 800; }
+.lang-switch ul a[aria-current]::after { content: " ✓"; }
+/* REB00T palette (dark) */
+.lang-switch { --i18n-line: var(--border, rgba(255,255,255,.14)); --i18n-bg: rgba(255,255,255,.04); --i18n-menu-bg: #12161c; --i18n-menu-fg: var(--text, #fff); color: var(--text, #fff); }
+.hero > .lang-switch, .legal-header > .lang-switch { position: absolute; top: 18px; inset-inline-end: 18px; }
+.lang-switch ul a { color: var(--text, #fff); }
+
+/* Scripts not covered by the latin fonts */
+:lang(zh-Hans) body { font-family: "Avenir Next", "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Noto Sans SC", "Microsoft YaHei", sans-serif; }
+:lang(ja) body { font-family: "Avenir Next", "Segoe UI", "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Noto Sans JP", "Yu Gothic", sans-serif; }
+:lang(ar) body { font-family: "Avenir Next", "Segoe UI", "Geeza Pro", "Noto Sans Arabic", "Segoe UI", Tahoma, sans-serif; }
+
+/* ---------- RTL (Arabic) ---------- */
+[dir="rtl"] .signal-list li { padding-left: 0; padding-right: 20px; }
+[dir="rtl"] .signal-list li::before { left: auto; right: 0; }
+[dir="rtl"] .legal-content ul { margin: 0 20px 14px 0; }
+[dir="rtl"] img { direction: ltr; }
+[dir="rtl"] .eyebrow, [dir="rtl"] .card-label, [dir="rtl"] .meta, [dir="rtl"] .back-link { letter-spacing: 0; }
+:lang(zh-Hans) .eyebrow, :lang(ja) .eyebrow, :lang(zh-Hans) .card-label, :lang(ja) .card-label, :lang(zh-Hans) .meta, :lang(ja) .meta, :lang(zh-Hans) .back-link, :lang(ja) .back-link { letter-spacing: 0.06em; }
+@media (max-width: 760px) { .hero > .lang-switch, .legal-header > .lang-switch { position: static; margin-bottom: 14px; } }
+:lang(ar) .site-shell h1, :lang(ar) .site-shell h2 { line-height: 1.35; }
+:lang(zh-Hans) h1, :lang(ja) h1, :lang(zh-Hans) h2, :lang(ja) h2 { line-height: 1.3; }

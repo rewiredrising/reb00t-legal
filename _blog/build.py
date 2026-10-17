@@ -425,6 +425,11 @@ def render_sitemap(posts):
     for loc, lastmod in urls:
         lm = f"<lastmod>{lastmod}</lastmod>" if lastmod else ""
         rows.append(f"  <url><loc>{loc}</loc>{lm}</url>")
+    # Keep the localized-pages block managed by _i18n/i18n.py (translations of the core pages).
+    prev = (ROOT / "sitemap.xml").read_text(encoding="utf-8") if (ROOT / "sitemap.xml").exists() else ""
+    m = re.search(r"<!-- I18N:START.*?<!-- I18N:END -->", prev, re.S)
+    if m:
+        rows.append("  " + m.group(0))
     xml = ('<?xml version="1.0" encoding="UTF-8"?>\n'
            '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
            + "\n".join(rows) + "\n</urlset>\n")

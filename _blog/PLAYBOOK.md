@@ -85,3 +85,7 @@ folder is public.
 - If the build, push or live check fails, stop, report the error and leave the post source in place.
   Never force-push.
 - One post per run. Don't publish a post dated in the future (build.py skips those anyway).
+
+## Localization note
+Core pages (index, support, privacy, terms) have translations under `/es/ /pt-BR/ /de/ /zh-Hans/ /ja/ /ar/` (see `_i18n/README.md`). Blog posts stay English.
+`build.py` preserves the `I18N:START … I18N:END` block in `sitemap.xml`; don't remove it.

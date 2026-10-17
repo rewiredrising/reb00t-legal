@@ -8,4 +8,30 @@
   <url><loc>https://reb00t.app/support.html</loc></url>
   <url><loc>https://reb00t.app/privacy.html</loc></url>
   <url><loc>https://reb00t.app/terms.html</loc></url>
+  <!-- I18N:START (managed by _i18n/i18n.py) -->
+  <url><loc>https://reb00t.app/es/</loc></url>
+  <url><loc>https://reb00t.app/pt-BR/</loc></url>
+  <url><loc>https://reb00t.app/de/</loc></url>
+  <url><loc>https://reb00t.app/zh-Hans/</loc></url>
+  <url><loc>https://reb00t.app/ja/</loc></url>
+  <url><loc>https://reb00t.app/ar/</loc></url>
+  <url><loc>https://reb00t.app/es/support.html</loc></url>
+  <url><loc>https://reb00t.app/pt-BR/support.html</loc></url>
+  <url><loc>https://reb00t.app/de/support.html</loc></url>
+  <url><loc>https://reb00t.app/zh-Hans/support.html</loc></url>
+  <url><loc>https://reb00t.app/ja/support.html</loc></url>
+  <url><loc>https://reb00t.app/ar/support.html</loc></url>
+  <url><loc>https://reb00t.app/es/privacy.html</loc></url>
+  <url><loc>https://reb00t.app/pt-BR/privacy.html</loc></url>
+  <url><loc>https://reb00t.app/de/privacy.html</loc></url>
+  <url><loc>https://reb00t.app/zh-Hans/privacy.html</loc></url>
+  <url><loc>https://reb00t.app/ja/privacy.html</loc></url>
+  <url><loc>https://reb00t.app/ar/privacy.html</loc></url>
+  <url><loc>https://reb00t.app/es/terms.html</loc></url>
+  <url><loc>https://reb00t.app/pt-BR/terms.html</loc></url>
+  <url><loc>https://reb00t.app/de/terms.html</loc></url>
+  <url><loc>https://reb00t.app/zh-Hans/terms.html</loc></url>
+  <url><loc>https://reb00t.app/ja/terms.html</loc></url>
+  <url><loc>https://reb00t.app/ar/terms.html</loc></url>
+  <!-- I18N:END -->
 </urlset>
