@@ -85,3 +85,17 @@ folder is public.
 - If the build, push or live check fails, stop, report the error and leave the post source in place.
   Never force-push.
 - One post per run. Don't publish a post dated in the future (build.py skips those anyway).
+
+## Localization (translations of posts)
+> Model/cost rule for translation: do the translation in this session, or if you delegate it (Claude Code CLI, subagents) use `--model sonnet` at normal effort — never opus, never `--effort max`, no parallel reviewer subagents.
+
+The site is translated into the locales in `_i18n/config.json` (es, pt-BR, de, zh-Hans, ja, ar); translated pages live at `/<code>/...`, e.g. `/de/blog/<slug>/`. See `_i18n/README.md`.
+
+- `build.py` now finishes by running `_i18n/i18n.py`, which refreshes the language switcher, hreflang alternates and the `I18N` block in `sitemap.xml`. A new English post without translations builds and publishes exactly as before.
+- Translations are static copies of the generated English HTML. After the English post is live (separate step, so translation never blocks the English post):
+  1. For each locale code in `_i18n/config.json` (except en): copy `blog/<slug>/index.html` to `<code>/blog/<slug>/index.html` and translate the copy in place: title, meta description, og/twitter tags, alt text, every visible string (TOC, CTA boxes, captions, FAQ, Sources heading, footer line incl. "not medical advice") and the JSON-LD text. Natural native SEO copy for that market, not literal. Keep the shame-free, non-diagnostic tone ("compulsive/problematic porn use"), all facts and citations. Do NOT change markup, ids, hrefs, or anything between `<!-- i18n:... -->` markers; the script localizes links.
+  2. Add the post card at the top of the post grid in each `<code>/blog/index.html` (same markup as the English card, translated, local date format).
+  3. `python3 _i18n/i18n.py --stamp <code>` for each locale, then `python3 _blog/build.py --check`.
+  4. `_blog/publish.sh "Blog i18n: <slug>" ` (it commits everything and verifies Pages). If translation can't be completed, remove the partial copies so the tree is clean and report it; the English post stays published.
+- Because the English HTML is regenerated on every build, editing an older post (or the templates) marks its translations `STALE` in the build output. Update the translations when practical; STALE is a warning, not an error.
+- `build.py` preserves the `I18N:START … I18N:END` block in `sitemap.xml`; never remove it by hand.

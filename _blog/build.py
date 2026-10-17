@@ -189,11 +189,13 @@ def head(title, description, canonical, og_image, og_type="website", extra=""):
   <link rel="alternate" type="application/rss+xml" title="{BRAND} Blog" href="{SITE}/blog/feed.xml">
   <link rel="preload" href="/blog/fonts/BebasNeue-Regular.ttf" as="font" type="font/ttf" crossorigin>
   <link rel="stylesheet" href="/blog/blog.css">
-{extra}</head>
+{extra}<!-- i18n:head --><!-- /i18n:head -->
+</head>
 <body>
   <header class="topbar">
     <div class="topbar-inner">
       <a class="logo" href="/blog/">REB<span>00</span>T <em>Blog</em></a>
+      <!-- i18n:switcher --><!-- /i18n:switcher -->
       <a class="btn-top" href="{APP_STORE_URL}">Get the app</a>
     </div>
   </header>
@@ -425,6 +427,11 @@ def render_sitemap(posts):
     for loc, lastmod in urls:
         lm = f"<lastmod>{lastmod}</lastmod>" if lastmod else ""
         rows.append(f"  <url><loc>{loc}</loc>{lm}</url>")
+    # Keep the localized-pages block managed by _i18n/i18n.py (translations of the core pages).
+    prev = (ROOT / "sitemap.xml").read_text(encoding="utf-8") if (ROOT / "sitemap.xml").exists() else ""
+    m = re.search(r"<!-- I18N:START.*?<!-- I18N:END -->", prev, re.S)
+    if m:
+        rows.append("  " + m.group(0))
     xml = ('<?xml version="1.0" encoding="UTF-8"?>\n'
            '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
            + "\n".join(rows) + "\n</urlset>\n")
@@ -541,6 +548,17 @@ def check_post(meta, body, words):
             warn(slug, f"image missing alt: {img[:80]}")
 
 
+# ---------------------------------------------------------------- i18n
+
+def apply_i18n():
+    """Refresh hreflang/switcher/sitemap for translated pages (see _i18n/README.md).
+    English posts publish fine without translations; translated copies live in /<locale>/blog/."""
+    script = ROOT / "_i18n" / "i18n.py"
+    if script.exists():
+        import subprocess
+        subprocess.run([sys.executable, str(script)], check=True)
+
+
 # ---------------------------------------------------------------- main
 
 def main():
@@ -551,6 +569,7 @@ def main():
     render_index(posts)
     render_feed(posts)
     render_sitemap(posts)
+    apply_i18n()
     print(f"Built {len(posts)} post(s): " + ", ".join(p["slug"] for p in posts))
     for w in warnings:
         print("WARN", w)
