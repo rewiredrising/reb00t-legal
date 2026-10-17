@@ -5,7 +5,9 @@
     "index.html",
     "support.html",
     "privacy.html",
-    "terms.html"
+    "terms.html",
+    "blog/index.html",
+    "blog/*/index.html"
   ],
   "locales": [
     {

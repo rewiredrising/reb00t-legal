@@ -41,3 +41,13 @@ details.lang-switch > summary { margin: 0; font-size: 0.9rem; font-weight: 600; 
 @media (max-width: 760px) { .hero > .lang-switch, .legal-header > .lang-switch { position: static; margin-bottom: 14px; } }
 :lang(ar) .site-shell h1, :lang(ar) .site-shell h2 { line-height: 1.35; }
 :lang(zh-Hans) h1, :lang(ja) h1, :lang(zh-Hans) h2, :lang(ja) h2 { line-height: 1.3; }
+
+/* Blog (blog/blog.css) */
+.topbar .lang-switch { position: static; }
+[dir="rtl"] .logo em { margin-left: 0; margin-right: 6px; }
+[dir="rtl"] .toc ol { padding-left: 0; padding-right: 20px; }
+[dir="rtl"] .prose ul, [dir="rtl"] .prose ol { padding-left: 0; padding-right: 1.3em; }
+[dir="rtl"] .prose blockquote { padding: 4px 20px 4px 0; border-left: 0; border-right: 3px solid var(--gold); }
+[dir="rtl"] .prose th, [dir="rtl"] .prose td { text-align: right; }
+:lang(zh-Hans) .article-header h1, :lang(ja) .article-header h1, :lang(ar) .article-header h1,
+:lang(zh-Hans) .index-hero h1, :lang(ja) .index-hero h1, :lang(ar) .index-hero h1 { font-family: inherit; font-weight: 800; letter-spacing: 0; line-height: 1.3; }

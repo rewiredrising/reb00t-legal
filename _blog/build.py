@@ -189,11 +189,13 @@ def head(title, description, canonical, og_image, og_type="website", extra=""):
   <link rel="alternate" type="application/rss+xml" title="{BRAND} Blog" href="{SITE}/blog/feed.xml">
   <link rel="preload" href="/blog/fonts/BebasNeue-Regular.ttf" as="font" type="font/ttf" crossorigin>
   <link rel="stylesheet" href="/blog/blog.css">
-{extra}</head>
+{extra}<!-- i18n:head --><!-- /i18n:head -->
+</head>
 <body>
   <header class="topbar">
     <div class="topbar-inner">
       <a class="logo" href="/blog/">REB<span>00</span>T <em>Blog</em></a>
+      <!-- i18n:switcher --><!-- /i18n:switcher -->
       <a class="btn-top" href="{APP_STORE_URL}">Get the app</a>
     </div>
   </header>
@@ -546,6 +548,17 @@ def check_post(meta, body, words):
             warn(slug, f"image missing alt: {img[:80]}")
 
 
+# ---------------------------------------------------------------- i18n
+
+def apply_i18n():
+    """Refresh hreflang/switcher/sitemap for translated pages (see _i18n/README.md).
+    English posts publish fine without translations; translated copies live in /<locale>/blog/."""
+    script = ROOT / "_i18n" / "i18n.py"
+    if script.exists():
+        import subprocess
+        subprocess.run([sys.executable, str(script)], check=True)
+
+
 # ---------------------------------------------------------------- main
 
 def main():
@@ -556,6 +569,7 @@ def main():
     render_index(posts)
     render_feed(posts)
     render_sitemap(posts)
+    apply_i18n()
     print(f"Built {len(posts)} post(s): " + ", ".join(p["slug"] for p in posts))
     for w in warnings:
         print("WARN", w)

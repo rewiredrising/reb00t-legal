@@ -38,7 +38,16 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 CFG = json.loads((ROOT / "_i18n" / "config.json").read_text(encoding="utf-8"))
 SITE = CFG["site"].rstrip("/")
-PAGES = CFG["pages"]
+def _expand(patterns):
+    out = []
+    for pat in patterns:
+        hits = sorted(str(q.relative_to(ROOT)) for q in ROOT.glob(pat)) if any(c in pat for c in "*?[") else [pat]
+        out += [h for h in hits if h not in out]
+    return out
+
+
+PAGES = _expand(CFG["pages"])  # entries may be globs, e.g. "blog/*/index.html"
+REQUIRED = [p for p in CFG["pages"] if not any(c in p for c in "*?[")]  # must exist in every live locale
 LOCALES = CFG["locales"]
 DEFAULT = LOCALES[0]
 CSS = "/" + CFG.get("css", "assets/i18n.css").lstrip("/")
@@ -52,7 +61,7 @@ def page_path(code, page):
 
 
 def page_url(code, page, absolute=True):
-    tail = "" if page == "index.html" else page
+    tail = page[: -len("index.html")] if page == "index.html" or page.endswith("/index.html") else page
     path = "/" + tail if code == DEFAULT["code"] else f"/{code}/{tail}"
     return SITE + path if absolute else path
 
@@ -111,18 +120,62 @@ def switcher_block(loc, page):
             "<!-- /i18n:switcher -->")
 
 
-SKIP = re.compile(r"^(?:[a-z][a-z0-9+.-]*:|/|#|\.\./|\{)", re.I)
+SKIP = re.compile(r"^(?:[a-z][a-z0-9+.-]*:|#|\{|//)", re.I)
+LOCALE_PREFIX = re.compile(r"^/(?:%s)/" % "|".join(re.escape(l["code"]) for l in LOCALES[1:])) if len(LOCALES) > 1 else None
 
 
-def rewrite_rel(code, text):
-    """Make relative URLs in a /<code>/ page resolve: translated pages stay local, rest gets ../"""
+def path_to_page(path):
+    """'/blog/x/' -> 'blog/x/index.html', '/support.html' -> 'support.html' (None if not a core page)."""
+    path = path.lstrip("/")
+    key = path + "index.html" if path == "" or path.endswith("/") else path
+    return key if key in PAGES else None
+
+
+def rewrite_links(code, page, text):
+    """Rewrite links in a /<code>/ page: links to pages translated into <code> point at the
+    translation (relative, root-relative and absolute-to-SITE forms); other relative links get ../"""
+    page_dir = page.rsplit("/", 1)[0] + "/" if "/" in page else ""
+
+    def split(url):
+        m = re.match(r"([^?#]*)(.*)", url, re.S)
+        return m.group(1), m.group(2)
+
+    def localized(path):  # root-relative path -> localized root-relative path or None
+        if LOCALE_PREFIX and LOCALE_PREFIX.match(path):
+            return None
+        key = path_to_page(path)
+        if key and page_path(code, key).exists():
+            return f"/{code}/" + path.lstrip("/")
+        return None
+
     def fix(url):
-        if not url or SKIP.match(url):
+        if not url:
             return url
-        base = url.split("#")[0].split("?")[0]
-        if base in PAGES and page_path(code, base).exists():
+        if url.startswith(SITE + "/") or url == SITE:
+            base, rest = split(url[len(SITE):] or "/")
+            loc = localized(base)
+            return SITE + loc + rest if loc else url
+        if SKIP.match(url):
             return url
-        return "../" + url
+        base, rest = split(url)
+        if url.startswith("/"):
+            loc = localized(base)
+            return loc + rest if loc else url
+        if url.startswith("../"):
+            return url
+        # relative to this page's folder
+        target = (page_dir + base) if base else page
+        norm = []
+        for part in target.split("/"):
+            if part == "..":
+                norm = norm[:-1]
+            elif part not in (".",):
+                norm.append(part)
+        target = "/".join(norm)
+        key = target + "index.html" if target.endswith("/") or target == "" else target
+        if key in PAGES and page_path(code, key).exists():
+            return url
+        return "/" + target + rest  # not translated: point at the English/shared resource
 
     def attr(m):
         name, q, val = m.group(1), m.group(2), m.group(3)
@@ -131,9 +184,25 @@ def rewrite_rel(code, text):
         else:
             val = fix(val)
         return f"{name}={q}{val}{q}"
-    text = re.sub(r"\b(href|src|poster|srcset|action)=([\"'])(.*?)\2", attr, text)
-    # url(...) in inline styles
-    return re.sub(r"url\((['\"]?)(?!data:|https?:|/|#|\.\./)([^)'\"]+)\1\)", r"url(\1../\2\1)", text)
+
+    def outside(chunk):
+        # tags carrying hreflang (e.g. "read the English version" links) are left alone
+        chunk = re.sub(r"<[a-zA-Z][^>]*>", lambda tg: tg.group(0) if "hreflang=" in tg.group(0) else
+                       re.sub(r"\b(href|src|poster|srcset|action)=([\"'])(.*?)\2", attr, tg.group(0)), chunk)
+        chunk = re.sub(r"url\((['\"]?)(?!data:|https?:|/|#|\.\./)([^)'\"]+)\1\)",
+                       lambda m: f"url({m.group(1)}/{page_dir}{m.group(2)}{m.group(1)})", chunk)
+        # JSON-LD: absolute URLs of translated pages
+        def ld_url(u):
+            base, rest = split(u.group(1))
+            loc = localized(base)
+            return SITE + (loc + rest if loc else u.group(1)) + '"'
+
+        def ld(m):
+            return re.sub(re.escape(SITE) + r'(/[^"]*)"', ld_url, m.group(0))
+        return re.sub(r'<script type="application/ld\+json">.*?</script>', ld, chunk, flags=re.S)
+
+    parts = re.split(r"(<!-- i18n:(?:head|switcher) -->.*?<!-- /i18n:(?:head|switcher) -->|<link\s+rel=\"(?:canonical|alternate)\"[^>]*>)", text, flags=re.S)
+    return "".join(p if i % 2 else outside(p) for i, p in enumerate(parts))
 
 
 def set_attr(tag, name, value):
@@ -161,8 +230,7 @@ def process(loc, page):
         en, here = page_url(DEFAULT["code"], page), page_url(loc["code"], page)
         text = re.sub(r'(<link\s+rel="canonical"\s+href=")[^"]*(")', rf"\g<1>{here}\2", text)
         text = re.sub(r'(<meta\s+property="og:url"\s+content=")[^"]*(")', rf"\g<1>{here}\2", text)
-        text = re.sub(r'("url"\s*:\s*")' + re.escape(en) + '"', rf'\g<1>{here}"', text)
-        text = rewrite_rel(loc["code"], text)
+        text = rewrite_links(loc["code"], page, text)
     path.write_text(text, encoding="utf-8")
 
 
@@ -195,13 +263,15 @@ def main():
                 t = re.sub(r"(<!DOCTYPE[^>]*>\n?)", rf"\1<!-- i18n:source={source_hash(page)} -->\n", t, count=1, flags=re.I)
                 p.write_text(t, encoding="utf-8")
         print(f"stamped {code}")
-    problems = []
+    problems, untranslated = [], []
     for loc in LOCALES:
         for page in PAGES:
             p = page_path(loc["code"], page)
             if not p.exists():
-                if loc.get("live"):
+                if loc.get("live") and page in REQUIRED:
                     problems.append(f"missing {loc['code']}/{page}")
+                elif loc.get("live"):
+                    untranslated.append(f"{loc['code']}/{page}")
                 continue
             if loc is not DEFAULT:
                 m = SOURCE_RE.search(p.read_text(encoding="utf-8"))
@@ -211,6 +281,8 @@ def main():
     sitemap()
     for pr in problems:
         print("WARN", pr)
+    if untranslated:
+        print(f"i18n: {len(untranslated)} optional page translation(s) not present yet (English only), e.g. {untranslated[0]}")
     print("i18n: " + ", ".join(f"{l['code']}{'' if l.get('live') else '(off)'}" for l in LOCALES))
     if "--check" in args and problems:
         sys.exit(1)
